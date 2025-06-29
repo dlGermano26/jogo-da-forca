@@ -1,0 +1,84 @@
+@startuml
+
+' Definir estilo opcional
+skinparam classAttributeIconSize 0
+
+' ENUMs
+enum Forca {
+  +ESTAGIO0
+  +ESTAGIO1
+  +ESTAGIO2
+  +ESTAGIO3
+  +ESTAGIO4
+  +ESTAGIO5
+  +ESTAGIO6
+  -desenho : String
+  +getDesenho() : String
+}
+
+enum TemaPalavras {
+  +ANIMAIS
+  +FRUTAS
+  +PAISES
+  +CORES
+  +ESPORTES
+  -palavras : String[]
+  +getAleatoria() : String
+}
+
+' CLASSES
+class LetrasEscolhidas {
+  -letras : Set<Character>
+  +jaEscolhida(letra: char) : boolean
+  +adicionar(letra: char) : boolean
+  +getLetrasJaTentadas() : Set<Character>
+}
+
+class Player {
+  -letrasEscolhidas : LetrasEscolhidas
+  -tentativasErradas : int
+  -maximoTentativas : int
+  +Player()
+  +getLetrasEscolhidas() : LetrasEscolhidas
+  +getEstagioAtualForca() : Forca
+  +registrarTentativaErrada() : void
+  +perdeu() : boolean
+  +getTentativasErradas() : int
+  +getMaxTentativas() : int
+}
+
+class PalavraSecreta {
+  -palavraEscolhida : String
+  -letrasEscolhidas : LetrasEscolhidas
+  +PalavraSecreta(tema: TemaPalavras, letrasEscolhidas: LetrasEscolhidas)
+  +getPalavraSecreta() : String
+  +getPalavraOculta() : String
+  +foiAdivinhada() : boolean
+}
+
+class EscolherLetra {
+  -player : Player
+  -palavraJogo : PalavraSecreta
+  -input : Scanner
+  +EscolherLetra(player: Player, palavraJogo: PalavraSecreta)
+  +pedirESetarLetra() : void
+}
+
+class JogoDaForca {
+  +main(args: String[]) : void
+}
+
+' RELAÇÕES ENTRE CLASSES
+Player --> LetrasEscolhidas
+Player --> Forca
+PalavraSecreta --> LetrasEscolhidas
+PalavraSecreta --> TemaPalavras
+EscolherLetra --> Player
+EscolherLetra --> PalavraSecreta
+EscolherLetra --> Scanner
+JogoDaForca --> TemaPalavras
+JogoDaForca --> Player
+JogoDaForca --> PalavraSecreta
+JogoDaForca --> EscolherLetra
+
+@enduml
